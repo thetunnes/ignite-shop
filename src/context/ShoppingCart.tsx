@@ -9,10 +9,11 @@ interface Product {
 }
 
 interface ContextType {
-  shoppingCart: Array<Product>
+  shoppingCart: string[]
   isOpenShoppingCart: boolean
   addNewProductInShoppingCart: (productId: string) => void
   toggleShoppingCart: () => void
+  removeProductShoppingCart: (productId: string) => void
 }
 
 const ShoppingCartContext = createContext({} as ContextType)
@@ -24,11 +25,17 @@ interface ProviderProps {
 export function ShoppingCartProvider({ children }) {
 
   const [shoppingCart, setShoppingCart] = useState([])
-  const [isOpenShoppingCart, setIsOpenShoppingCart] = useState(true)
+  const [isOpenShoppingCart, setIsOpenShoppingCart] = useState(false)
 
-  function addNewProductInShoppingCart() {
-
+  function addNewProductInShoppingCart(productId: string) {
+    if (!shoppingCart.includes(productId)) {
+      setShoppingCart(prev => ([...prev, productId]))
+    }
     setIsOpenShoppingCart(true)
+  }
+
+  function removeProductShoppingCart(productId: string) {
+    setShoppingCart(prev => prev.filter(product => product !== productId))
   }
 
   function toggleShoppingCart() {
@@ -36,10 +43,17 @@ export function ShoppingCartProvider({ children }) {
     setIsOpenShoppingCart(!isOpenShoppingCart)
   }
 
+  useEffect(() => {
+    if (shoppingCart.length) {
+      localStorage.setItem('ignite-shop-shopping-cart', JSON.stringify(shoppingCart))
+    }
+  }, [shoppingCart])
+
   return (
     <ShoppingCartContext.Provider
       value={{
-        shoppingCart, addNewProductInShoppingCart, isOpenShoppingCart, toggleShoppingCart
+        shoppingCart, addNewProductInShoppingCart, 
+        isOpenShoppingCart, toggleShoppingCart, removeProductShoppingCart
       }}
     >
       {children}

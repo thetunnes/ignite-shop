@@ -12,7 +12,7 @@ export const HomeContainer = styled('div', {
 
 
 
-export const Product = styled(Link, {
+export const Product = styled('div', {
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
   // padding: '0.5rem',
@@ -65,6 +65,8 @@ export const Product = styled(Link, {
     },
 
     button: {
+      position: 'relative',
+      zIndex: '999',
       padding: '0.75rem',
       backgroundColor: '$green500',
       color: '$white',

@@ -1,15 +1,16 @@
 import { GetServerSideProps, GetStaticProps } from "next"
 import Image from "next/image"
+import Link from 'next/link';
+import Head from "next/head"
 import Stripe from "stripe"
 import { useKeenSlider } from "keen-slider/react"
 import { stripe } from "../libs/stripe"
-import { Handbag } from "phosphor-react"
-
-import { HomeContainer, Product } from "../styles/pages/home"
-import 'keen-slider/keen-slider.min.css';
-import Head from "next/head"
 import { useShoppingCart } from "../context/ShoppingCart"
 import { ShoppingCart } from './../components/ShoppingCart';
+
+import { Handbag } from "phosphor-react"
+import { HomeContainer, Product } from "../styles/pages/home"
+import 'keen-slider/keen-slider.min.css';
 
 interface Product {
   id: string
@@ -38,8 +39,10 @@ export default function Home({ products }: Props) {
       </Head>
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((product) => (
-          <Product href={`/product/${product.id}`} key={product.id} className="keen-slider__slide">
+          <Product key={product.id} className="keen-slider__slide">
+            <Link href={`/product/${product.id}`}>
             <Image src={product.imageUrl} width={520} height={480} alt="" />
+            </Link>
 
             <footer>
               <div>
