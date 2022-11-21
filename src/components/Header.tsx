@@ -13,7 +13,7 @@ export function Header() {
     <HeaderContainer>
     <Link href="/"><Image {...logoImg} alt="" /></Link>
 
-    <ButtonShoppingCart type="button" onClick={toggleShoppingCart}>
+    <ButtonShoppingCart type="button" onClick={toggleShoppingCart} disabled={!shoppingCart.length}>
       {shoppingCart.length ? <p>{shoppingCart.length}</p> : null}
       <Handbag weight="bold" fontSize={20} />
     </ButtonShoppingCart>

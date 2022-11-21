@@ -49,6 +49,11 @@ export function ShoppingCartProvider({ children }) {
     }
   }, [shoppingCart])
 
+  useEffect(() => {
+    const dataLocalStorage = JSON.parse(localStorage.getItem('ignite-shop-shopping-cart'))
+    setShoppingCart(dataLocalStorage ?? [])
+  }, [])
+
   return (
     <ShoppingCartContext.Provider
       value={{

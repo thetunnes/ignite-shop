@@ -1,10 +1,11 @@
-import Link from "next/link";
-import { SuccessContainer, ImageContainer, TextSuccess } from "../styles/pages/success";
+import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 import { stripe } from "../libs/stripe";
 import Stripe from "stripe";
-import Image from "next/image";
-import Head from "next/head";
+import { SuccessContainer, ImageContainer, TextSuccess } from "../styles/pages/success";
 
 interface Props {
   customerName: string
@@ -15,6 +16,11 @@ interface Props {
 }
 
 export default function Success({ customerName, product}: Props) {
+
+  useEffect(() => {
+    localStorage.removeItem('ignite-shop-shopping-cart')
+  }, [])
+
   return (
     <>
     <Head>

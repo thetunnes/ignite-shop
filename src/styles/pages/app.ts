@@ -54,8 +54,12 @@ export const ButtonShoppingCart = styled('button', {
     borderRadius: '50%',
     border: '3px solid #121214'
   },
+
+  '&:disabled': {
+    filter: 'brightness(0.8)'
+  },
   
-  '&:hover':{
+  '&:not(:disabled):hover':{
     backgroundColor: '$green300'
   }
 })

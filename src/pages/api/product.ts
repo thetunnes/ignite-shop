@@ -20,7 +20,8 @@ export default async function product(req: NextApiRequest, res: NextApiResponse)
     name: product.name,
     id: product.id,
     imageUrl: product.images[0],
-    price: price.unit_amount / 100
+    price: price.unit_amount / 100,
+    defaultPriceId: price.id
   })})
 
 

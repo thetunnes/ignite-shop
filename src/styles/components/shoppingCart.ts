@@ -11,6 +11,17 @@ export const ShoppingCartContainer = styled('div', {
   right: 0,
   transition: 'all 0.6s',
 
+  '> svg': {
+    position: "absolute",
+    right: 24,
+    top: 24,
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: '$gray300'
+    }
+  },
+
   div: {
     display: 'flex',
     flexDirection: 'column',
@@ -25,7 +36,7 @@ export const ShoppingCartContainer = styled('div', {
     justifyContent: 'flex-start',
     gap: '1.5rem',
     margin: '1.5rem auto',
-    overflowY: 'scroll',
+    overflowY: 'auto',
     padding: '0.25rem 0',
 
     '&::-webkit-scrollbar': {
@@ -34,16 +45,16 @@ export const ShoppingCartContainer = styled('div', {
     },
 
     /* Track */
-'&::-webkit-scrollbar-track': {
-  boxShadow: 'inset 0 0 5px grey',
-  borderRadius: 10
-},
+    '&::-webkit-scrollbar-track': {
+      boxShadow: 'inset 0 0 5px grey',
+      borderRadius: 10
+    },
 
-/* Handle */
-'&::-webkit-scrollbar-thumb': {
-  background: '$gray300',
-  borderRadius: 10
-}
+    /* Handle */
+    '&::-webkit-scrollbar-thumb': {
+      background: '$gray300',
+      borderRadius: 10
+    }
   },
 
   footer: {

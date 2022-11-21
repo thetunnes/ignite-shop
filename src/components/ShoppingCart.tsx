@@ -16,6 +16,7 @@ interface ListShoppingCartType {
   name: string;
   price: number;
   imageUrl: string;
+  defaultPriceId: string
 }
 
 export function ShoppingCart() {
@@ -58,6 +59,38 @@ export function ShoppingCart() {
     );
   }
 
+  function formatNumberToCurrency(value: number) {
+    const formattedValue = Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'})
+
+    return formattedValue.format(value)
+  }
+
+  async function handleCheckoutProducts() {
+
+    // Essa aplicação foi desenvolvida com a ideia de venda de 1 camisa por pedido.
+    // Se a ideia fosse quantas camisas quisesse, salvaríamos a qntd no Contexto
+    // E passariamos essa qntd para quantity em cada produto.
+    // Poderíamos também na criação do Checkout, definir que ele recebe quantity
+    // Assim, por dentro da página de Checkout selecionaríamos a qntd
+
+    const structureList = listShoppingCart.map((product) => ({
+      price: product.defaultPriceId,
+      quantity: 1
+    }))
+
+    const urlRequest = structureList.length > 1 ? '/api/checkoutShoppingCart' : '/api/checkout'
+
+    const body = structureList.length > 1 ? {
+      listPriceId: structureList
+    } : {
+      priceId: structureList[0].price
+    }
+
+    const { data } = await axios.post(urlRequest, body)
+
+    window.location.href = data.checkoutUrl
+  }
+
   useEffect(() => {
     if (isOpenShoppingCart) {
       fetchProductsById();
@@ -74,7 +107,7 @@ export function ShoppingCart() {
         <div>
           <ul>
             {listShoppingCart.map((product) => (
-              <Product>
+              <Product key={product.id}>
                 <ImageContainer>
                   <Image
                     src={product.imageUrl}
@@ -85,7 +118,7 @@ export function ShoppingCart() {
                 </ImageContainer>
                 <ProductDetails>
                   <p>{product.name}</p>
-                  <strong>{product.price}</strong>
+                  <strong>{formatNumberToCurrency(product.price)}</strong>
                   <RemoveProduct
                     type="button"
                     onClick={() => removeProductFromCart(product.id)}
@@ -99,8 +132,8 @@ export function ShoppingCart() {
 
           <footer>
             <p>Quantidade <span>{`${listShoppingCart.length} ${listShoppingCart.length === 1 ? 'item' : 'itens'}`}</span></p>
-            <p>Valor total <span>{totalPrice}</span></p>
-            <button>Finalizar compra</button>
+            <p>Valor total <span>{formatNumberToCurrency(totalPrice)}</span></p>
+            <button onClick={handleCheckoutProducts}>Finalizar compra</button>
           </footer>
         </div>
       ) : (
